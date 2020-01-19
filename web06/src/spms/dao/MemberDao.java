@@ -162,8 +162,6 @@ public class MemberDao {
 				if(rs.next()) { //쿼리가 성공했다면 email,password가 맞다는 의미
 					return new Member().setEmail(rs.getString("EMAIL"))
 							.setName(rs.getString("MNAME"));
-				}else {
-					throw new Exception("아이디나 비밀번호 오류");
 				}
 			} catch (Exception e) {
 				throw e;
@@ -173,6 +171,7 @@ public class MemberDao {
 				//try { if(connection!=null) connPool.closeAll();} catch(Exception e) {}
 				try { if(connection!=null) connection.close();} catch (Exception e) {}
 			}
+			return null;
 	}
 	
 	
