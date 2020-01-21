@@ -9,9 +9,14 @@ import spms.vo.Member;
 
 public class MemberUpdateController implements Controller {
 	MemberDao memberDao;
+	
+	public MemberUpdateController setMemberDao(MemberDao memberDao) {
+		this.memberDao = memberDao;
+		return this;
+	}
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
-		memberDao = (MemberDao) model.get("memberDao");
+//		memberDao = (MemberDao) model.get("memberDao");
 		if(model.get("member") == null) {
 			System.out.println("MemberUpdateController실행 (입력폼요청 doGet)");
 			

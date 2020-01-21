@@ -32,17 +32,20 @@ public class DispatcherServlet extends HttpServlet {
 		try {
 			ServletContext sc = this.getServletContext();
 			HashMap<String,Object> model = new HashMap<String,Object>();
-			model.put("memberDao",sc.getAttribute("memberDao"));
+			
+			//이제 DB연결을 위한 MemberDao객체를 Map에 담을 필요가 없음
+			//model.put("memberDao",sc.getAttribute("memberDao"));
+			
 			model.put("session", request.getSession());
-			Controller pageController = null;
+			Controller pageController = (Controller) sc.getAttribute(servletPath);
 			if("/member/list.do".equals(servletPath)) {
 				System.out.println("list.do 실행");
 				//pageControllPath = "/member/list";
-				pageController = new MemberListController();
+				//pageController = new MemberListController();
 			}else if("/member/add.do".equals(servletPath)){
 				System.out.println("add.do 실행");
 				//pageControllPath = "/member/add";
-				pageController = new MemberAddController();
+				//pageController = new MemberAddController();
 				if(request.getParameter("email") != null) {//로그인을 해야 add가 가능함
 					System.out.println("add.do 내부if문 작동");
 //					request.setAttribute("member", new Member().setEmail(request.getParameter("email"))
@@ -57,8 +60,8 @@ public class DispatcherServlet extends HttpServlet {
 			}else if("/member/update.do".equals(servletPath)) {
 				System.out.println("update.do작동");
 				//pageControllPath = "/member/update?no="+request.getParameter("no");
-				model.put("no",Integer.parseInt(request.getParameter("no")));
-				pageController = new MemberUpdateController();
+				model.put("no",new Integer(request.getParameter("no")));
+				//pageController = new MemberUpdateController();
 				if(request.getParameter("email") != null) {
 					System.out.println("update.do 내부if문 작동");
 //					request.setAttribute("member", new Member().setNo(Integer.parseInt(request.getParameter("no")))
@@ -74,17 +77,18 @@ public class DispatcherServlet extends HttpServlet {
 				System.out.println("delete.do작동");
 				//pageControllPath = "/member/delete";
 				model.put("no", Integer.parseInt(request.getParameter("no")));
-				pageController = new MemberDeleteController();
+				//pageController = new MemberDeleteController();
 			}else if("/auth/logIn.do".equals(servletPath)) {
 				System.out.println("logIn.do작동");
-				pageController = new LogInController();
+				//pageController = new LogInController();
 				if(request.getParameter("email") !=null) {
 					model.put("loginInfo", new Member().setEmail(request.getParameter("email"))
 													   .setPassword(request.getParameter("password"))
 							);
 				}
 			}else if("/auth/logout.do".equals(servletPath)) {
-				pageController = new LogOutController();
+				System.out.println("logout.do작동");
+				//pageController = new LogOutController();
 			}
 			
 			//RequestDispatcher rd = request.getRequestDispatcher(pageControllPath);
