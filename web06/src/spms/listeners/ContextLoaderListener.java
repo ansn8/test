@@ -7,6 +7,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 
+import spms.context.ApplicationContext;
 import spms.controls.LogInController;
 import spms.controls.LogOutController;
 import spms.controls.MemberAddController;
@@ -29,39 +30,56 @@ public class ContextLoaderListener implements ServletContextListener {
 	//BasicDataSource ds;
 	
 	//DataSource를 직접쓰지않고 서버에 보관하여 사용하므로 BasicDataSource가 필요없음
+	static ApplicationContext applicationContext;
+	
+	public static ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+	
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		// 이메서드는 웹어플리케이션이 시작될 때 호출됨 공용객체를 사용할때 여기에 작성하면됨
+		
 		try {
 			ServletContext sc = event.getServletContext();
 			
-			//BasicDataSource를 직접사용하지 않고 톰캣서버에서 자원을 찾기위해 InitialContext를 사용
-			//lookup메서드를 사용하면 서버에 등록해놓은 DataSource자원을 가져올 수 있음
-			InitialContext initialContext = new InitialContext();
-			DataSource ds =  (DataSource) initialContext.lookup("java:comp/env/jdbc/studydb");
-			
-//			ds = new BasicDataSource();
-//			ds.setDriverClassName(sc.getInitParameter("driver"));
-//			ds.setUrl(sc.getInitParameter("url"));
-//			ds.setUsername(sc.getInitParameter("username"));
-//			ds.setPassword(sc.getInitParameter("password"));
-			
-//			MemberDao memberDao = new MemberDao();
-			MySqlMemberDao memberDao = new MySqlMemberDao();
-			memberDao.setDataSource(ds);
-			
-			//이제 DB를 연결을 각 컨트롤러에 직접적으로 주입함 별도로 꺼내서 사용할 일이 없음.
-//			sc.setAttribute("memberDao", memberDao);
-			sc.setAttribute("/auth/logIn.do", new LogInController().setMemberDao(memberDao));
-			sc.setAttribute("/auth/logout.do", new LogOutController());
-			sc.setAttribute("/member/list.do", new MemberListController().setMemberDao(memberDao));
-			sc.setAttribute("/member/add.do", new MemberAddController().setMemberDao(memberDao));
-			sc.setAttribute("/member/update.do", new MemberUpdateController().setMemberDao(memberDao));
-			sc.setAttribute("/member/delete.do", new MemberDeleteController().setMemberDao(memberDao));
-			
+			String propertiesPath = sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
+			applicationContext = new ApplicationContext(propertiesPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+//		try {
+//			ServletContext sc = event.getServletContext();
+//			
+//			//BasicDataSource를 직접사용하지 않고 톰캣서버에서 자원을 찾기위해 InitialContext를 사용
+//			//lookup메서드를 사용하면 서버에 등록해놓은 DataSource자원을 가져올 수 있음
+//			InitialContext initialContext = new InitialContext();
+//			DataSource ds =  (DataSource) initialContext.lookup("java:comp/env/jdbc/studydb");
+//			
+////			ds = new BasicDataSource();
+////			ds.setDriverClassName(sc.getInitParameter("driver"));
+////			ds.setUrl(sc.getInitParameter("url"));
+////			ds.setUsername(sc.getInitParameter("username"));
+////			ds.setPassword(sc.getInitParameter("password"));
+//			
+////			MemberDao memberDao = new MemberDao();
+//			MySqlMemberDao memberDao = new MySqlMemberDao();
+//			memberDao.setDataSource(ds);
+//			
+//			//이제 DB를 연결을 각 컨트롤러에 직접적으로 주입함 별도로 꺼내서 사용할 일이 없음.
+////			sc.setAttribute("memberDao", memberDao);
+//			sc.setAttribute("/auth/logIn.do", new LogInController().setMemberDao(memberDao));
+//			sc.setAttribute("/auth/logout.do", new LogOutController());
+//			sc.setAttribute("/member/list.do", new MemberListController().setMemberDao(memberDao));
+//			sc.setAttribute("/member/add.do", new MemberAddController().setMemberDao(memberDao));
+//			sc.setAttribute("/member/update.do", new MemberUpdateController().setMemberDao(memberDao));
+//			sc.setAttribute("/member/delete.do", new MemberDeleteController().setMemberDao(memberDao));
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
 //		try {
 //			ServletContext sc = event.getServletContext();
 ////			Class.forName(sc.getInitParameter("driver"));

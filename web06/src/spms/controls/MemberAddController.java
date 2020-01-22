@@ -18,6 +18,7 @@ public class MemberAddController implements Controller, DataBinding {
 	
 	@Override
 	public Object[] getDataBinders() {
+		System.out.println("MemberAddContoller getDataBinders 실행");
 		return new Object[] {
 				"member", spms.vo.Member.class
 		};
