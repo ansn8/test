@@ -8,7 +8,9 @@ import javafx.scene.chart.PieChart.Data;
 
 public class ServletRequestDataBinder {
 	public static Object bind(ServletRequest request, Class<?> dataType, String dataName) throws Exception{
-		System.out.println("ServletRequestDataBinder bind실행 request : "+request+", Class<?> dataType : "+dataType+", dataName : "+dataName);
+		// bind메소드는 프런트컨트롤러에서 요청 매개변수의 값과 데이터이름, 데이터타입을 받아서 데이터객체를 만드는 역할을 함
+		// ex) 로그인 할때 dataType == spms.vo.Member.class, dataName == "loginInfo"
+		System.out.println("bind메소드 실행 Class<?> dataType : "+dataType+", dataName : "+dataName);
 		if(isPrimitiveType(dataType)) {
 			return createValueObject(dataType, request.getParameter(dataName));
 		}

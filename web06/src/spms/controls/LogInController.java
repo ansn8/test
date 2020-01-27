@@ -18,7 +18,7 @@ public class LogInController implements Controller, DataBinding {
 	
 	@Override
 	public Object[] getDataBinders() {
-		System.out.println("MemberLogInContoller getDataBinders 실행");
+		System.out.println("LoginController에서 필요한 데이터가 뭔지 넘김");
 		return new Object[] {
 				"loginInfo", spms.vo.Member.class
 		};
