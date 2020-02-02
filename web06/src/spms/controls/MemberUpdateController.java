@@ -2,12 +2,11 @@ package spms.controls;
 
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
+import spms.annotation.Component;
 import spms.bind.DataBinding;
 import spms.dao.MemberDao;
 import spms.vo.Member;
-
+@Component("/member/update.do")
 public class MemberUpdateController implements Controller, DataBinding {
 	MemberDao memberDao;
 	

@@ -15,8 +15,10 @@ SPMS(Simple Project Management System)
 </c:if>
 
 <c:if test="${loginss.email == null}">
-	<a style="color:white;"href="../auth/logIn.do">로그인</a>
+	<a style="color:white;" href="../auth/logIn.do">로그인</a>
 </c:if>
+<a style="color:white;" href="../member/list.do">목록</a>
+<a style="color:white;" href="../project/list.do">프로젝트</a>
 </div>
 <p>${loginss.email}</p>
 <p>${loginss.name}</p>

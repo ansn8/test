@@ -19,7 +19,7 @@ import spms.dao.MemberDao;
 // JSP 적용 
 // - 변경폼 및 예외 처리
 @SuppressWarnings("serial")
-@WebServlet("/member/update")
+//@WebServlet("/member/update")
 public class MemberUpdateServlet extends HttpServlet {
 //	MemberDao memberDao = new MemberDao();
 	ServletContext sc;

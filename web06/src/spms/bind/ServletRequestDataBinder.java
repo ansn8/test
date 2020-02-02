@@ -1,10 +1,10 @@
 package spms.bind;
 
 import java.lang.reflect.Method;
+import java.sql.Date;
 import java.util.Set;
 import javax.servlet.ServletRequest;
 
-import javafx.scene.chart.PieChart.Data;
 
 public class ServletRequestDataBinder {
 	public static Object bind(ServletRequest request, Class<?> dataType, String dataName) throws Exception{
@@ -35,7 +35,7 @@ public class ServletRequestDataBinder {
 		   type.getName().equals("float") || type == Float.class ||
 		   type.getName().equals("double") || type == Double.class ||
 		   type.getName().equals("boolean") || type == Boolean.class ||
-		   type == Data.class || type == String.class) {
+		   type == Date.class || type == String.class) {
 			return true;
 		}
 		return false;
@@ -53,7 +53,7 @@ public class ServletRequestDataBinder {
 			return new Long(value);
 		} else if(type.getName().equals("boolean") || type == Boolean.class) {
 			return new Boolean(value);
-		} else if(type == Data.class) {
+		} else if(type == Date.class) {
 			return java.sql.Date.valueOf(value);
 		} else {
 			return value;

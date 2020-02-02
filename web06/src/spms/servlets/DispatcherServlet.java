@@ -40,7 +40,7 @@ public class DispatcherServlet extends HttpServlet {
 			
 			//Controller pageController = (Controller) sc.getAttribute(servletPath);
 			Controller pageController = (Controller) ctx.getBean(servletPath);
-			
+			System.out.println("PageC"+pageController);
 			if(pageController == null) {
 				//주소를 잘못입력했을 경우, 발생하는 Exception
 				throw new Exception("요청한 페이지를 찾을 수 없습니다");

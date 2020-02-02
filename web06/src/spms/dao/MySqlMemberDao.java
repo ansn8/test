@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 
+import spms.annotation.Component;
 import spms.vo.Member;
 //DAO란 데이터처리를 전문으로 하는 객체를 의미함  
 //기존의 서블릿에서 하던 db연동을 통한 데이터처리를 하나의 객체를 만들어 거기서 처리함
+@Component("memberDao")
 public class MySqlMemberDao implements MemberDao {
 	//ConnectionPool사용으로 이제 더 이상  MemberDao에 Connection을 직접적으로 보관할 필요가 없음
 	//DBConnectionPool connPool;
@@ -23,10 +25,10 @@ public class MySqlMemberDao implements MemberDao {
 		
 	}
 	
-	//public void setDbConnectionPool(DBConnectionPool connPool) {
-		//Connection을 직접적으로 보관하는 메서드 대신 DBConnectionPool객체를 저장하는 메서드를 사용
-		//this.connPool = connPool;
-	//}
+//	public void setDbConnectionPool(DBConnectionPool connPool) {
+//		Connection을 직접적으로 보관하는 메서드 대신 DBConnectionPool객체를 저장하는 메서드를 사용
+//		this.connPool = connPool;
+//	}
 	
 	public List<Member> selectList() throws Exception{ //회원리스트
 		//프로그램의 유연성을 위해 selectList()의 타입을 List로 지정

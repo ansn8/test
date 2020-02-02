@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import spms.vo.Member;
 import spms.dao.MemberDao;;
-@WebServlet("/auth/logIn")
+//@WebServlet("/auth/logIn.do")
 public class LogInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

@@ -2,10 +2,11 @@ package spms.controls;
 
 import java.util.Map;
 
+import spms.annotation.Component;
 import spms.bind.DataBinding;
 import spms.dao.MemberDao;
 import spms.vo.Member;
-
+@Component("/member/add.do")
 public class MemberAddController implements Controller, DataBinding {
 	//기존의 MemberAddServlet은 Get요청과 Post요청을 구분하여 처리가 가능했지만 
 	//일반클래스에서는 불가능하기 때문에 값객체 Member에 값이 있으면 Post요청으로 처리되게하고

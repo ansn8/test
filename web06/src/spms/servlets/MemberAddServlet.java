@@ -18,7 +18,7 @@ import spms.vo.Member;
 
 // JSP 적용
 // - 입력폼 및 오류 처리 
-@WebServlet("/member/add")
+//@WebServlet("/member/add")
 public class MemberAddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

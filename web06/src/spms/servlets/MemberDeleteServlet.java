@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import spms.dao.MemberDao;
 // 오류 처리 JSP 적용  
-@WebServlet("/member/delete")
+//@WebServlet("/member/delete")
 public class MemberDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 //	MemberDao memberDao = new MemberDao();
