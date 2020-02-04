@@ -1,20 +1,18 @@
 package spms.listeners;
 
-import javax.naming.InitialContext;
+
+import java.io.InputStream;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.sql.DataSource;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import spms.context.ApplicationContext;
-import spms.controls.LogInController;
-import spms.controls.LogOutController;
-import spms.controls.MemberAddController;
-import spms.controls.MemberDeleteController;
-import spms.controls.MemberListController;
-import spms.controls.MemberUpdateController;
-import spms.dao.MySqlMemberDao;
 //리스너를 배치하기위해 어노테이션으로 정의
 @WebListener
 public class ContextLoaderListener implements ServletContextListener {
@@ -39,15 +37,32 @@ public class ContextLoaderListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		// 이메서드는 웹어플리케이션이 시작될 때 호출됨 공용객체를 사용할때 여기에 작성하면됨
-		
 		try {
-			ServletContext sc = event.getServletContext();
+			applicationContext = new ApplicationContext();
 			
+			String resource = "spms/dao/mybatis-config.xml";
+			InputStream inputStream = Resources.getResourceAsStream(resource);
+			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			
+			applicationContext.addBean("sqlSessionFactory", sqlSessionFactory);
+			ServletContext sc = event.getServletContext();
 			String propertiesPath = sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
-			applicationContext = new ApplicationContext(propertiesPath);
+			
+			applicationContext.prepareObjectsByProperties(propertiesPath);
+			applicationContext.prepareObjectsByAnnotation("");
+			applicationContext.injectDependency();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
+//		try {
+//			ServletContext sc = event.getServletContext();
+//			String propertiesPath = sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
+//			applicationContext = new ApplicationContext(propertiesPath);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 //		try {
 //			ServletContext sc = event.getServletContext();
