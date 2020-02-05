@@ -1,13 +1,8 @@
 package spms.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -33,12 +28,12 @@ public class MySqlProjectDao implements ProjectDao {
 	}
 	
 	@Override
-	public List<Project> selectList() throws Exception {
+	public List<Project> selectList(HashMap<String,Object> paramMap) throws Exception {
 		//SqlSession은 SQL을 실행시킴 이 객체를 통해 SQL문 실행 가능해짐
 		//그러나 직접 생성은 못하고 SqlSessionFactory를 통해 얻을 수 있음
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
- 			return sqlSession.selectList("spms.dao.ProjectDao.selectList");
+ 			return sqlSession.selectList("spms.dao.ProjectDao.selectList",paramMap);
 		} finally {
 			sqlSession.close();
 		}
@@ -80,9 +75,36 @@ public class MySqlProjectDao implements ProjectDao {
 	public int update(Project project) throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
-			int count = sqlSession.update("spms.dao.ProjectDao.update", project);
-			sqlSession.commit();
-			return count;
+			Project original = sqlSession.selectOne("spms.dao.ProjectDao.selectOne", project.getNo());
+			Hashtable<String,Object> paramMap = new Hashtable<String,Object>();
+			
+			//기존의 값과 새로들어온 값이 같다면 update돌릴필요가 없음 다르다면 새로운 내용이니까 update돌려야함
+			if(!project.getTitle().equals(original.getTitle())){
+				paramMap.put("title", project.getTitle());
+			}
+			if(!project.getContent().equals(original.getContent())){
+				paramMap.put("content", project.getContent());
+			}
+			if(project.getStartDate().compareTo(original.getStartDate()) != 0){
+				paramMap.put("startDate",project.getStartDate());
+			}
+			if(project.getEndDate().compareTo(original.getEndDate()) != 0) {
+				paramMap.put("endDate", project.getEndDate());
+			}
+			if(project.getState() != original.getState()) {
+				paramMap.put("state", project.getState());
+			}
+			if(!project.getTags().equals(original.getTags())) {
+				paramMap.put("tags", project.getTags());
+			}
+			if(paramMap.size() > 0) {
+				paramMap.put("no", project.getNo());
+				int count = sqlSession.update("spms.dao.ProjectDao.update", paramMap);
+				sqlSession.commit();
+				return count;
+			} else {
+				return 0;
+			}
 		} finally {
 			sqlSession.close();
 		}
