@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- myblog -->
+	<!-- Root Context: 다른 모든 웹 구성 요소에 표시되는 공유 리소스 정의 -->
+		
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+	   <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	   <property name="url" value="jdbc:mysql://localhost/spring5fs?serverTimezone=UTC"/>
+	   <property name="username" value="spring5" />
+	   <property name="password" value="spring5" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- ibatis와 다르게 sql디렉토리에 xml 추가만 해주면 별도추가없이 알아서 xml내의 쿼리 인식 -->
+		<property name="mapperLocations">
+			<list>
+	                                <!--  해당 경로를 통해 xml을 읽어옵니다. -->
+				 <value>classpath:mappers/*.xml</value>
+			</list>
+		</property>
+			
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+                <!-- 해당 Project에서의 Mapper Package를 value로 적어줘야 합니다. ex) com.example.start.Mapper 이러한 형식으로 말입니다. -->
+		<property name="basePackage" value="com.test.java.Mapper"/> 
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+</beans>
