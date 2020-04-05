@@ -8,7 +8,7 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="<c:url value="/resources/boot/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
+	<link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
 	<title>test01</title>
 	
 
@@ -66,7 +66,7 @@
   
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
  </body>
 
 
